@@ -20,8 +20,8 @@ typedef struct node {
 };
 
 typedef struct stackElement {
-    node element;
-    stackElement *next;
+    node element; 
+   stackElement *next;
     
 };
 
@@ -42,13 +42,14 @@ void printSLL() {
         }
 }
 
-void printSLL(node *n) {
+void static printSLL(node *n) {
         node *temp1 = n;
         cout << "Current List\n";
         while (temp1 != NULL) {
-                cout << temp1->data << "\n";
+                cout << temp1->data;
                 temp1 = temp1->next;
         }
+        cout << "\n";
 }
 
 // Using the diagrams on http://www.codeproject.com/Articles/24684/How-to-create-Linked-list-using-C-C
@@ -116,25 +117,50 @@ public:
 //        return top;
 //    }
     
-    void push(node nnode) {
+    void push(SLL nnode) {
         
         // Create temp object and allocate memory
         stackElement *temp;
         temp = (stackElement*)malloc(sizeof(stackElement));
         
-        temp->element = nnode;
+        // Set the stackElement object's data
+        temp->element = *nnode.head;
+        // Set the stackElement's pointer
         temp->next = top;
         top = temp;
         
         printStack(top);
     }
     
-    void pop() {
-        
+    stackElement pop() {
+        stackElement *temp1;
+        if (this->empty()) {
+            temp1 = NULL;
+        }
+        else {
+            temp1 = top;
+            // Grab the second element
+            stackElement *temp2 = top->next;
+            top = temp2;
+        }
+        printStack(top);
+        return *temp1;
     }
     
-    void full() {
-        
+    
+    bool full() {
+        // What's full for?
+        return this->size() > 99;
+    }
+    
+    int size() {
+        stackElement *temp = top;
+        int size = 0;
+        while (temp != NULL) {
+                size++;
+                temp = temp-> next;
+        }
+        return size;
     }
     
     bool empty() {
@@ -146,18 +172,30 @@ public:
 
 };
 
-int main() {
-        SLL sll;
+void testListAndStack() {
+    SLL sll, sll2, sll3;
         sll.insertFront('3');
         sll.insertFront('4');
         sll.insertFront('7');
         sll.insertBack('r');
         sll.insertFront('k');
         cout << "list size: " << sll.size() << "\n";
+        sll2.insertFront('2');
+        sll3.insertFront('3');
         
         Stack stack;
-        stack.push(*sll.head);
+        stack.push(sll);
+        stack.push(sll2);
+        stack.push(sll3);
         cout << "stack emptiness: " << stack.empty() << "\n";
+        cout << "stack size: " << stack.size() << "\n";
+        stack.pop();
+        stack.pop();
+        stack.pop();
+}
+
+int main() {
+        testListAndStack();
         return 1;
 }
 
