@@ -37,9 +37,11 @@ void printSLL() {
         node *temp1 = head;
         cout << "Current List\n";
         while (temp1 != NULL) {
-                cout << temp1->data << "\n";
+                cout << temp1->data;
                 temp1 = temp1->next;
         }
+                cout << "\n";
+
 }
 
 void static printSLL(node *n) {
@@ -113,10 +115,6 @@ public:
         }
     }
     
-//    node top() {
-//        return top;
-//    }
-    
     void push(SLL nnode) {
         
         // Create temp object and allocate memory
@@ -170,6 +168,35 @@ public:
         return false;
     }
 
+};
+
+class ListMath {
+    SLL sll0, sll1;
+    
+    SLL add() {
+        SLL sum;
+        
+        node *temp0 = sll0.head;
+        node *temp1 = sll1.head;
+        // Grab the last node of each list
+        while (temp0 != NULL) {
+                cout << temp0->data;
+                temp0 = temp0->next;
+        }
+        while (temp1 != NULL) {
+                cout << temp1->data;
+                temp1 = temp1->next;
+        }
+        sum.insertBack(char((int)temp0 + (int)temp1))
+        
+        return sum;
+    }
+    
+    SLL multiply() {
+        SLL product;
+        
+        return product;
+    }
 };
 
 void testListAndStack() {
