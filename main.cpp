@@ -71,22 +71,29 @@ void insertFront(char info) {
 
 void insertBack(char info) {
 
+    if (head != NULL) {
         node *temp1;
         // Had to steal to get rid of segmentation fault
         temp1= (node*)malloc(sizeof(node));
         temp1 = head;
         // Go to the last node
-        while(temp1->next!=NULL)
-        temp1 = temp1->next;
-
+        while(temp1->next!=NULL) {
+            temp1 = temp1->next;
+        }
         node *temp;
         temp = (node*)malloc(sizeof(node));
         temp->data = info;
         temp->next = NULL;
         // Set the previously NULL next to point to the new last node
-        temp1->next = temp;
+//        if (head->next != NULL)
+            temp1->next = temp;
+//        else
+//            head->next = temp; // If there were no elements
 
-        printSLL(head);
+        printSLL();
+    }
+    else
+        insertFront(info);
 
 }
 
@@ -169,46 +176,87 @@ public:
     }
 
 };
-
 class ListMath {
-    SLL sll0, sll1;
     
-    SLL add() {
-        SLL sum;
+public:
+    
+    int calcRaiser(int digits) {
+        int raiser = 1;
+        for (int i = 0; i < digits - 1; i++) {
+            raiser *= 10;
+        }
+        return raiser;
+    }
+    
+    int listToInt(SLL sll) {
+        int temp0i = 0;
+        node *temp0 = sll.head;
+        int temp0Raiser = calcRaiser(sll.size());
+        // Go through each node of each list
+        while (temp0->next != NULL) {
+            char c = temp0->data;
+            // Convert the char to an int and raise it into the proper digit
+            temp0i += (c - '0') * temp0Raiser;
+            temp0Raiser /= 10;
+            // Go to the next node
+            temp0 = temp0->next;
+        }
+        // Add the last digit
+        temp0i += temp0->data - '0';
+        return temp0i;
+    }
+    
+    SLL intToList(int i) {
+        SLL list;
         
-        node *temp0 = sll0.head;
-        node *temp1 = sll1.head;
-        // Grab the last node of each list
-        while (temp0 != NULL) {
-                cout << temp0->data;
-                temp0 = temp0->next;
+        for (int j = 1; j < i ; j *= 10) {
+            list.insertFront((char)(i / j % 10) + '0');
         }
-        while (temp1 != NULL) {
-                cout << temp1->data;
-                temp1 = temp1->next;
-        }
-        sum.insertBack(char((int)temp0 + (int)temp1))
+        
+        return list;
+        
+    }
+    
+    SLL add(SLL sll0, SLL sll1) {
+        SLL sum;
+
+        int temp0i = listToInt(sll0);
+        int temp1i = listToInt(sll1);
+        
+        cout << temp0i << " temp0i\n";
+        cout << temp1i << " temp1i\n";
+        
+        int s = listToInt(sll0) + listToInt(sll1);
+        sum = intToList(s);
+        cout << "\n";
+
         
         return sum;
     }
     
-    SLL multiply() {
+    SLL multiply(SLL sll0, SLL sll1) {
         SLL product;
         
+        int p = listToInt(sll0) * listToInt(sll1);
+        product = intToList(p);
         return product;
     }
+    
 };
 
 void testListAndStack() {
-    SLL sll, sll2, sll3;
+    SLL sll, sll2, sll3, sll4, sll5;
         sll.insertFront('3');
         sll.insertFront('4');
         sll.insertFront('7');
-        sll.insertBack('r');
-        sll.insertFront('k');
+        sll.insertBack('5');
+        sll.insertFront('6');
         cout << "list size: " << sll.size() << "\n";
         sll2.insertFront('2');
+        sll2.insertBack('1');
         sll3.insertFront('3');
+        
+        sll5.insertBack('b');
         
         Stack stack;
         stack.push(sll);
@@ -218,12 +266,16 @@ void testListAndStack() {
         cout << "stack size: " << stack.size() << "\n";
         stack.pop();
         stack.pop();
-        stack.pop();
+        
+        ListMath math;
+        cout << "Add lists\n";
+        // 67435 + 21
+        sll4 = math.add(sll, sll2);
+//        sll4.printSLL();
+
 }
 
 int main() {
         testListAndStack();
         return 1;
 }
-
-
