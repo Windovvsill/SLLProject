@@ -234,9 +234,11 @@ public:
         return sum;
     }
     
-    SLL multiply() {
+    SLL multiply(SLL sll0, SLL sll1) {
         SLL product;
         
+        int p = listToInt(sll0) * listToInt(sll1);
+        product = intToList(p);
         return product;
     }
     
